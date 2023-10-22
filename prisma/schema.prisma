@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tb_empresa {
+  id_empresa  Int         @id @default(autoincrement())
+  nm_fantasia String
+  cnpj        String      @unique
+  email       String
+  senha       String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  UF          String
+  cidade      String
+  rua         String
+  numero      String
+  complemento String
+  id_ponto    tb_ponto[]
+}
+
+model tb_ponto {
+  id_ponto    Int         @id @default(autoincrement())
+  nm_ponto    String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  UF          String
+  cidade      String
+  rua         String
+  numero      String
+  complemento String
+  empresa tb_empresa @relation(fields: [id_empresa], references: [id_empresa])
+  id_empresa Int
+}
+
+// model tb_endereco {
+//   id_endereco Int         @id @default(autoincrement())
+//   tipo        Int
+//   UF          String
+//   cidade      String
+//   rua         String
+//   numero      String
+//   complemento String
+  
+// }
